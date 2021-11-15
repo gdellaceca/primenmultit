@@ -1,10 +1,10 @@
 """ An effort to understand parallel programming.
 """
-
+import time
 
 
 def primenumbers(n):
-    '''This takes a number and outputs a list of all primes before it'''
+    '''This takes a number and outputs a list of all primes before it, order n**2, slow'''
     primes = [2]
     if n <= 2:
         return []
@@ -32,6 +32,10 @@ def summingSeq(numbers):
 if __name__ == '__main__':
 
     numlist = range(1000)
-    pnumber = summingSeq(numlist)
-    print(pnumber)
     
+    startseq = time.perf_counter()
+    pnumber = summingSeq(numlist)
+    stopseq = time.perf_counter()
+    
+    print(pnumber)
+    print(f'Elapsed time (sequential): {stopseq - startseq} s') 
