@@ -1,23 +1,8 @@
 """ An effort to understand parallel programming.
 """
 import time
+
 import numpy as np
-
-def primenumbers(n):
-    '''This takes a number and outputs a list of all primes before it, order at least n**2, slow'''
-    primes = [2]
-    if n <= 2:
-        return []
-    else:
-        for i in range(3, n):
-            for p in range(2, i):
-
-                if i % p == 0:
-                    break
-                elif i % p != 0 and p == i - 1:
-                    primes.append(i)
-
-    return primes
 
 
 def sieveErat(n):
@@ -44,7 +29,6 @@ def summingSeq(n):
 
     return listsum
 
-    
 if __name__ == '__main__':
 
     numlist = range(2, 10)
@@ -54,4 +38,4 @@ if __name__ == '__main__':
     stopseq = time.perf_counter()
     
     print(pnumber)
-    print(f'Elapsed time (sequential): {stopseq - startseq} s') 
+    print(f'Elapsed time (sequential): {stopseq - startseq} s')
