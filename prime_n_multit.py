@@ -1,6 +1,8 @@
 """ An effort to understand parallel programming.
 """
 import time
+#import multiprocessing
+#import threading
 
 import numpy as np
 
@@ -22,16 +24,25 @@ def sieve_erat(n):
     return numbers.nonzero()
 
 def summing_seq(n):
-    '''outputs a list with sieveErat'''
+    '''outputs a list with sieve_erat, without multiple threads or processes'''
     listsum = []
     for i in n:
         listsum.append([i, np.sum(sieve_erat(i))])
 
     return listsum
 
+def summing_multiprocess(n):
+    '''outputs a list with sieve_erat, with multiprocessing'''
+    pass
+
+def summing_multithread(n):
+    ''' outputs a list with sieve_erat, with multithreads'''
+    pass
+
+
 if __name__ == '__main__':
 
-    numlist = range(2, 10)
+    numlist = range(100000,2500000,100000)
 
     startseq = time.perf_counter()
     pnumber = summing_seq(numlist)
