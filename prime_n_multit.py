@@ -2,7 +2,7 @@
 """
 import time
 import multiprocessing as mp
-#import threading
+import threading
 
 import numpy as np
 
@@ -72,10 +72,28 @@ def summing_multiprocess_process(list_of_numbers, n_process = 4):
     
     return output
 
-def summing_multithread(n):
-    ''' outputs a list with sieve_erat, with multithreads'''
-    pass
+def worker_multithread(list_of_numbers,partial_output):
+    '''This works like the process one, but without a queue, since threads
+    share memory'''
+    for i in list_of_numbers:
+        partial_output.append([i, np.sum(sieve_erat(i))])
+    return partial_output
 
+def summing_multithread(list_of_numbers, n_threads):
+    ''' outputs a list with sieve_erat, with multithreads'''
+    output = []
+    threads = []
+    chunksize = int(len(list_of_numbers) / n_threads)
+
+    for i in range(n_threads):
+        t = threading.Thread(target=worker_multithread, args=(list_of_numbers[chunksize * i: chunksize * (i + 1)], output))
+        threads.append(t)
+        t.start()
+    
+    for t in threads:
+        t.join()
+
+    return output
 
 if __name__ == '__main__':
 
@@ -92,14 +110,16 @@ if __name__ == '__main__':
     startmpp = time.perf_counter()
     pnumber_mpp = summing_multiprocess_process(numlist)
     stopmpp= time.perf_counter()
-    '''
+    
     startmt = time.perf_counter()
-    pnumber_mt = summing_multithread(numlist)
+    pnumber_mt = summing_multithread(numlist, 4)
     stopmt = time.perf_counter()
-    '''    
+       
     print(pnumber_seq)
     print(pnumber_mp)
     print(pnumber_mpp)
+    print(pnumber_mt)
     print(f'Elapsed time (sequential): {stopseq - startseq} s')
     print(f'Elapsed time (multiprocessing Pool): {stopmp - startmp} s')
     print(f'Elapsed time (multiprocessing Process): {stopmpp - startmpp} s')
+    print(f'Elapsed time (multithreading): {stopmt - startmt} s')

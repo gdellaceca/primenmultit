@@ -18,20 +18,25 @@ The first known attempt to find an order to these numbers traces back to Erathos
 
 A pseudocode [implementation of the algorithm](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) goes like this:
 
-```
-algorithm Sieve of Eratosthenes is
-    input: an integer n > 1.
-    output: all prime numbers from 2 through n.
 
-    let A be an array of Boolean values, indexed by integers 2 to n,
-    initially all set to true.
-    
-    for i = 2, 3, 4, ..., not exceeding √n do
-        if A[i] is true
-            for j = i2, i2+i, i2+2i, i2+3i, ..., not exceeding n do
-                A[j] := false
+>algorithm Sieve of Eratosthenes is
+>    input: an integer n > 1.
+>   output: all prime numbers from 2 through n.
+>
+>   let A be an array of Boolean values, indexed by integers 2 to n,
+>   initially all set to true.
+>    
+>   for i = 2, 3, 4, ..., not exceeding √n do
+>        if A[i] is true
+>            for j = $i^2$, $i^2$+i, $i^2$+2i, $i^2$+3i, ..., not exceeding n do
+>                A[j] := false
+>
+>    return all i such that A[i] is true.
 
-    return all i such that A[i] is true.
-```
-Note the  `for` cycle that goes to the square root of `n`: this saves iterations, as all the multiples of a prime number p before p^2 are already taken care of by the previous prime numbers in the list.\
+Note the  `for` cycle that goes to the square root of $N$: this saves iterations, as all the multiples of a prime number p before $p^2$ are already taken care of by the previous prime numbers in the list.\
 My implementation uses `numpy`, to ensure speed and general compatibility with other libraries.  
+
+## Multiprocessing
+The Python standard module `multiprocessing` contains various objects that can be used to implement, well, multiprocessing.
+In this particular case I decided to experiment with `Pool` and `Process` objects.\
+`Pool` is more high-level than the latter, since it manages multiple processes.
